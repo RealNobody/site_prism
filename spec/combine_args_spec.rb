@@ -2,10 +2,10 @@ require 'spec_helper'
 
 RSpec.describe '#combine_args' do
   class FakeContainerClass
-    include SitePrism::ElementContainer
+    extend SitePrism::ElementContainer
   end
 
-  let(:subject) { FakeContainerClass.new }
+  let(:subject) { FakeContainerClass }
   let(:array_args1) { [:css, '#argument-1'] }
   let(:array_args2) { [:css, '#argument-2'] }
   let(:options_args1) { [{ minimum: 8 }] }

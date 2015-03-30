@@ -6,7 +6,7 @@ module SitePrism
       build element_name, *find_args do
         define_method element_name.to_s do |*runtime_args, &element_block|
           self.class.raise_if_block(self, element_name.to_s, !element_block.nil?)
-          find_first(*combine_args(find_args, runtime_args))
+          find_first(*self.class.send(:combine_args, find_args, runtime_args))
         end
       end
     end
@@ -15,7 +15,7 @@ module SitePrism
       build collection_name, *find_args do
         define_method collection_name.to_s do |*runtime_args, &element_block|
           self.class.raise_if_block(self, collection_name.to_s, !element_block.nil?)
-          find_all(*combine_args(find_args, runtime_args))
+          find_all(*self.class.send(:combine_args, find_args, runtime_args))
         end
       end
     end
@@ -26,7 +26,7 @@ module SitePrism
       build section_name, *find_args do
         define_method section_name do |*runtime_args, &element_block|
           self.class.raise_if_block(self, section_name.to_s, !element_block.nil?)
-          section_class.new self, find_first(*combine_args(find_args, runtime_args))
+          section_class.new self, find_first(*self.class.send(:combine_args, find_args, runtime_args))
         end
       end
     end
@@ -36,7 +36,7 @@ module SitePrism
       build section_collection_name, *find_args do
         define_method section_collection_name do |*runtime_args, &element_block|
           self.class.raise_if_block(self, section_collection_name.to_s, !element_block.nil?)
-          find_all(*combine_args(find_args, runtime_args)).map do |element|
+          find_all(*self.class.send(:combine_args, find_args, runtime_args)).map do |element|
             section_class.new self, element
           end
         end
@@ -112,7 +112,7 @@ module SitePrism
         define_method method_name do |*runtime_args|
           wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
           Capybara.using_wait_time wait_time do
-            element_exists?(*combine_args(find_args, runtime_args))
+            element_exists?(*self.class.send(:combine_args, find_args, runtime_args))
           end
         end
       end
@@ -124,7 +124,7 @@ module SitePrism
         define_method method_name do |*runtime_args|
           wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
           Capybara.using_wait_time wait_time do
-            element_does_not_exist?(*combine_args(find_args, runtime_args))
+            element_does_not_exist?(*self.class.send(:combine_args, find_args, runtime_args))
           end
         end
       end
@@ -136,7 +136,7 @@ module SitePrism
         define_method method_name do |timeout = nil, *runtime_args|
           timeout = timeout.nil? ? Capybara.default_wait_time : timeout
           Capybara.using_wait_time timeout do
-            element_exists?(*combine_args(find_args, runtime_args))
+            element_exists?(*self.class.send(:combine_args, find_args, runtime_args))
           end
         end
       end
@@ -148,7 +148,7 @@ module SitePrism
         define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
           Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
             Capybara.using_wait_time 0 do
-              sleep 0.05 until element_exists?(*combine_args(find_args, runtime_args), visible: true)
+              sleep 0.05 until element_exists?(*self.class.send(:combine_args, find_args, runtime_args), visible: true)
             end
           end
         end
@@ -161,7 +161,7 @@ module SitePrism
         define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
           Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
             Capybara.using_wait_time 0 do
-              sleep 0.05 while element_exists?(*combine_args(find_args, runtime_args), visible: true)
+              sleep 0.05 while element_exists?(*self.class.send(:combine_args, find_args, runtime_args), visible: true)
             end
           end
         end
