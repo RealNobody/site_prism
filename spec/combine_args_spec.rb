@@ -26,23 +26,23 @@ RSpec.describe '#combine_args' do
   end
 
   it 'combines an array and an array with options' do
-    expect(subject.send(:combine_args, array_args1, array_options_args2)).
-      to eq [:css, '#argument-1', :css, '#argument-with-options-2', { timeout: 30 }]
+    expect(subject.send(:combine_args, array_args1, array_options_args2))
+      .to eq [:css, '#argument-1', :css, '#argument-with-options-2', { timeout: 30 }]
   end
 
   it 'combines an array with options and an array' do
-    expect(subject.send(:combine_args, array_options_args1, array_args2)).
-      to eq [:css, '#argument-with-options-1', :css, '#argument-2', { visible: false }]
+    expect(subject.send(:combine_args, array_options_args1, array_args2))
+      .to eq [:css, '#argument-with-options-1', :css, '#argument-2', { visible: false }]
   end
 
   it 'combines an array with options and options' do
-    expect(subject.send(:combine_args, array_options_args1, options_args2)).
-      to eq [:css, '#argument-with-options-1', { visible: false, count: 12 }]
+    expect(subject.send(:combine_args, array_options_args1, options_args2))
+      .to eq [:css, '#argument-with-options-1', { visible: false, count: 12 }]
   end
 
   it 'combines an array with options and an array with options' do
-    expect(subject.send(:combine_args, array_options_args1, array_options_args2)).
-      to eq [:css, '#argument-with-options-1', :css, '#argument-with-options-2', { visible: false, timeout: 30 }]
+    expect(subject.send(:combine_args, array_options_args1, array_options_args2))
+      .to eq [:css, '#argument-with-options-1', :css, '#argument-with-options-2', { visible: false, timeout: 30 }]
   end
 
   it 'combines options and an array' do
@@ -50,8 +50,8 @@ RSpec.describe '#combine_args' do
   end
 
   it 'combines options and an array with options' do
-    expect(subject.send(:combine_args, options_args1, array_options_args2)).
-      to eq [:css, '#argument-with-options-2', { minimum: 8, timeout: 30 }]
+    expect(subject.send(:combine_args, options_args1, array_options_args2))
+      .to eq [:css, '#argument-with-options-2', { minimum: 8, timeout: 30 }]
   end
 
   it 'combines options and options' do
@@ -62,7 +62,7 @@ RSpec.describe '#combine_args' do
     array_options_args1[-1][:test_value] = 1
     array_options_args2[-1][:test_value] = 2
 
-    expect(subject.send(:combine_args, array_options_args1, array_options_args2)).
-      to eq [:css, '#argument-with-options-1', :css, '#argument-with-options-2', { visible: false, timeout: 30, test_value: 2 }]
+    expect(subject.send(:combine_args, array_options_args1, array_options_args2))
+      .to eq [:css, '#argument-with-options-1', :css, '#argument-with-options-2', { visible: false, timeout: 30, test_value: 2 }]
   end
 end
