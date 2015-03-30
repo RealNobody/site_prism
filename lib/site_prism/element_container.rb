@@ -70,8 +70,7 @@ module SitePrism
     private
 
     def combine_args(arg_array1, arg_array2)
-      args = []
-      args += arg_array1
+      args = arg_array1.dup
       options1 = (args.pop if args[-1].is_a?(Hash)) || {}
       args += arg_array2
       options2 = (args.pop if args[-1].is_a?(Hash)) || {}
